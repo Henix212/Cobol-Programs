@@ -10,12 +10,12 @@ You can install GnuCOBOL on your system by following the instructions provided i
 To compile a COBOL program, navigate to the directory where the program is located and run the following command:
 
 ```bash
-cobc -x program_name.cob
+cobc -x path_to_program.cob
 ```
 This will create an executable file with the same name as the program. You can then run the program by executing the following command:
 
 ```bash
-./program_name
+./executable_program_name
 ```
 
 ## Programs
