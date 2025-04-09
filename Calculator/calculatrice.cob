@@ -3,11 +3,11 @@ IDENTIFICATION DIVISION.
 
        DATA DIVISION.
            WORKING-STORAGE SECTION.
-               77 num1 PIC 9999 VALUE 0.           *> First value
-               77 num2 PIC 9999 VALUE 0.           *> Second value
-               77 operator PIC X VALUE SPACE.      *> Operator (+, -, *, /)
-               77 result PIC S9999V99 VALUE 0.     *> Result
-               77 valid-input PIC X VALUE "N".     *> Input validity indicator
+               77 num1 PIC 9999 VALUE 0.           *> Première valeur
+               77 num2 PIC 9999 VALUE 0.           *> Deuxième valeur
+               77 operator PIC X VALUE SPACE.      *> Opérateur (+, -, *, /)
+               77 result PIC S9999V99 VALUE 0.     *> Résultat
+               77 valid-input PIC X VALUE "N".     *> Indicateur de validité des entrées
 
        PROCEDURE DIVISION.
            DISPLAY "=== Simple Calculator ===".
@@ -36,12 +36,21 @@ IDENTIFICATION DIVISION.
                    DISPLAY "Invalid input. Please enter a numeric value."
                END-IF
            END-PERFORM.
+           
+           MOVE "N" TO valid-input.
 
-           *> Choose an operator
-           DISPLAY "Please enter an operator (+, -, *, /): "
-           ACCEPT operator
+           *> Operator input
+           PERFORM UNTIL valid-input = "Y"
+               DISPLAY "Please enter an operator (+, -, *, /): "
+               ACCEPT operator
+               IF operator = "+" OR operator = "-" OR operator = "*" OR operator = "/"
+                   MOVE "Y" TO valid-input
+               ELSE
+                   DISPLAY "Invalid input. Please enter a valid operator."
+               END-IF
+           END-PERFORM.
 
-           *> Calculation based on the operator
+           *> Calculate result based on operator                                                                      
            EVALUATE operator
                WHEN "+"
                    ADD num1 TO num2 GIVING result
@@ -59,9 +68,8 @@ IDENTIFICATION DIVISION.
                    DISPLAY "Invalid operator: " operator
            END-EVALUATE.
 
-           *> Display the result if the operator is valid
+           *> Display result if valid operation
            IF operator = "+" OR operator = "-" OR operator = "*" OR (operator = "/" AND num2 NOT = 0)
                DISPLAY "Result = " result
            END-IF.
-
            STOP RUN.
